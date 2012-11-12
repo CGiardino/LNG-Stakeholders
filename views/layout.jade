@@ -1,0 +1,102 @@
+!!! 5
+html(lang="en")
+  head
+    meta(name="viewport",content="initial-scale=1.0, user-scalable=no")
+    style(type="text/css")
+            html { height: 100% }
+            #img1 {heigth: 10px;float:left;margin-left: 30px; margin-top: 10px}
+            #header { height: 30px;margin-top:5px;}
+            #for{ width:50%;float:left;margin-top:19px;}
+            #b1 {width: 50px;margin-left:10px; font-size: 50px}
+            #footer {height: 30px;margin-left:45%}
+
+
+            body { height: 100%; margin: 0; padding: 0;background-image:url('img/stripes.png');}
+
+    script(src='http://code.jquery.com/jquery-1.6.1.min.js')
+    script(type="text/javascript",
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABQ7KzpYoVRa9eM63geCVFoBz74XajLyg&sensor=false")
+    script(type="text/javascript", src="http://localhost:3000/socket.io/socket.io.js")
+
+    script
+        var lat="";
+        var lon="";
+        var indexcord=0;
+        var neighborhoods=[];
+
+        var socket = io.connect('http://localhost:3000');
+        socket.on('cord', function (cord) {
+            initialize(indexcord,cord);
+
+            indexcord++;
+        });
+
+
+        var map;
+        var contentString;
+
+        var markers = [];
+        var iterator = 0;
+
+        function initializeMap(cord){
+            var myOptions = {
+                zoom: 6,
+                center:  new google.maps.LatLng(cord[0],cord[1]),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map =  new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        }
+        function initialize (i,cord){
+            neighborhoods = cord ;
+            if(i==0){
+
+                initializeMap(cord);
+                iterator = 0;
+            }
+            else{
+
+
+                function drop() {
+                    for (var z = 0; z < neighborhoods.length; z++) {
+                        setTimeout(function() {
+                            addMarker();
+                        }, i * 200);
+                    }
+                }
+
+                function addMarker() {
+                    markers.push(new google.maps.Marker({
+                        position: new google.maps.LatLng(neighborhoods[0],neighborhoods[1]),
+                        map: map,
+                        draggable: false,
+                        animation: google.maps.Animation.DROP
+                    }));
+                    iterator++;
+                }
+                drop();
+
+            }
+        }
+
+        function invia(){
+            var value=document.getElementById("t1").value;
+
+            if(value!="")
+                socket.emit('mycor', value);
+        }
+
+
+
+  body
+        #header
+            title Cap
+            img(id="img1",src='img/Cap.png')
+            #for
+                #q
+                        input(id="t1", name="q",type="text",onkeydown="if (event.keyCode == 13) document.getElementById('b1').click()")
+
+                        input(id="b1", type="button", value="Invia", onclick="invia();")
+        #map_canvas(style="width:95%; height:85%;margin-top:30px; margin-bottom:30px;margin-left:auto; margin-right:auto")
+        #footer
+                #f
+                    <a href="http://www.carminegiardino.com"> By Carmine Giardino </a>
