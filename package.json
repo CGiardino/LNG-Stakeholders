@@ -6,8 +6,12 @@
     "description":"",
     "contributors":[
         {
-            "name":"",
-            "email":""
+            "name":"Carmine Giardino",
+            "email":"carmine.giardino@gmail.com"
+        }
+        {
+            "name":"David Zall ",
+            "email":"david.zall@gmail.com"
         }
     ],
     "bin":{
