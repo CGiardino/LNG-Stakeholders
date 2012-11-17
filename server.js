@@ -14,15 +14,16 @@ function Reader(){
 Reader.prototype= {
     read: function(){
 
-        this.databaseR.addListener('data', function(){
-
+        this.databaseR.addListener('data', function(data){
+            console.log(data);
 
         })
     }
 };
 
 
-
+reader= new Reader;
+reader.read();
 
 
 module.exports=Reader;
