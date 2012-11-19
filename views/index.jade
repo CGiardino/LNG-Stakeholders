@@ -1,4 +1,8 @@
-!!! 5
-html(lang="en")
-  head
-  body(onload="initialize()")
+body
+    p Banana
+    script(type="text/javascript", src="http://localhost:3000/socket.io/socket.io.js")
+    script
+        var socket= io.connect("http://localhost:3000");
+        socket.on('sm', function (sm){
+            console.log(sm);
+        });
