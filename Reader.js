@@ -8,18 +8,9 @@ function Reader(){
         'escape': '"',
         'comment': '#'
     });
-    this.te="by";
+
 }
 
-Reader.prototype= {
-    read: function(){
-
-        this.databaseR.addListener('data', function(data){
-            console.log(data);
-
-        })
-    }
-};
 
 
 module.exports=Reader;
