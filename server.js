@@ -36,7 +36,7 @@ var reader= new Reader();
 reader.databaseR.addListener('data', function(data){
     console.log();
 
-        send_data.write([data[1],data[2],data[0]]);
+        send_data.write([data[1],data[2],data[0],data[3],data[4],data[6]]);
         send_data.send();
 
 });

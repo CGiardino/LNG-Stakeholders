@@ -6,7 +6,7 @@ script
     var socket= io.connect("http://localhost:3000");
         socket.on('sm', function (sm){
             console.log(sm);
-            drop(i++,sm[0],sm[1],sm[2])
+            drop(i++,sm[0],sm[1],sm[2],sm[3],sm[4],sm[5])
         });
 
     function initialize(){
@@ -43,12 +43,12 @@ script
         }
         map.setCenter(initialLocation);
     }
-    function drop(i,lon,lat,content) {
+    function drop(i,lon,lat,title,content,website) {
               setTimeout(function() {
-                  addMarker(lon,lat,content);
+                  addMarker(lon,lat,title,content,website);
               }, i * 20+500);
     }
-    function addMarker(lon,lat,content) {
+    function addMarker(lon,lat,title,content,website) {
           //var icon;
           //icon="img/p0.png";
           var markers=[];
@@ -57,31 +57,20 @@ script
                         map: map,
                         draggable: false,
                         animation: google.maps.Animation.DROP,
-                        title:"Info"
+                        title:title
                         //icon: icon
           });
-          var myOptions = {
-
-                    disableAutoPan: true
-                    ,maxWidth: 0
-                    ,pixelOffset: new google.maps.Size(-30, -70)
-                    ,zIndex: null
-                    ,boxStyle: {
-                      opacity: 0.9
-                      ,width: "120px"
-                      ,height: "17px"
-                      ,padding:"7px 10px"
-                      ,overflow:"auto"
-                     }
-                    ,closeBoxMargin: "-4px -5px 12px 12px"
-                    ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
-                    ,infoBoxClearance: new google.maps.Size(1, 1)
-                    ,isHidden: false
-                    ,pane: "floatPane"
-                    ,enableEventPropagation: false
-          };
+          var contentString= '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h2 id="firstHeading" class="firstHeading">'+title+'</h2>'+
+            '<div id="bodyContent">'+
+            '<p>'+content+'</p>'+
+            '<p>website: <a href="'+website+'">'+website+'</a></p>'+
+            '</div>'+
+            '</div>';
           var infowindow = new google.maps.InfoWindow({
-            content:content
+            content:contentString
           });
           google.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map, marker);
